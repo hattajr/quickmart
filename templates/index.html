@@ -8,9 +8,10 @@
     <input type="text"
         name="search_txt"
         hx-get="/search"
-        hx-trigger="keyup changed delay:300ms"
+        hx-trigger="keyup delay:500ms"
         hx-target="#search-results"
         placeholder="Search..."
+        hx-on::after-request="this.value = ''"
         class="search-input">
 </div>
 <div id="search-results"></div>

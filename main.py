@@ -36,6 +36,13 @@ class Item:
         self.image_url = self._image_base_url+self.barcode+self.image_format
 
 
+@app.get("/download_master_db", response_class=HTMLResponse)
+async def download_master_db(request: Request):
+    print("Downloading...")
+    download_master_table()
+    print("success download master DB")
+    return
+
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse(request=request, name="index.html")
@@ -44,17 +51,13 @@ async def index(request: Request):
 async def settings(request: Request):
     return templates.TemplateResponse(request=request, name="settings.html")
 
-@app.get("/download_master_db", response_class=HTMLResponse)
-async def download_master_db(request: Request):
-    print("Downloading...")
-    download_master_table()
-    print("success download master DB")
-    return
-
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, search_txt:str, db:Session=Depends(get_local_db)):
+    print(1, search_txt)
     if request.headers.get('HX-Request'):
+        print(2, search_txt)
         if len(search_txt) > 0:
+            print(3, search_txt)
             q = text(f"SELECT name, price, unit,  barcode FROM {PRODUCTS_TABLE} WHERE name LIKE '%' || :search_txt || '%' OR barcode LIKE '%' || :search_txt || '%'")
             p = {"search_txt": search_txt}
             result = db.execute(q, p)
@@ -70,4 +73,4 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                 if item.unit is None:
                     item.unit = "pcs"
             return templates.TemplateResponse(request=request, name="search_results.html", context={"items": items})
-    return
+            
