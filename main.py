@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from database import PRODUCTS_TABLE, get_local_db, download_master_table, is_table_exists
+from database import PRODUCTS_TABLE, get_local_db, download_master_table, is_table_exists, log_search
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from dataclasses import dataclass
@@ -52,9 +52,18 @@ async def settings(request: Request):
 async def search(request: Request, search_txt:str, db:Session=Depends(get_local_db)):
     if request.headers.get('HX-Request'):
         if len(search_txt) > 0:
+
             q = text(f"SELECT name, price, unit,  barcode FROM {PRODUCTS_TABLE} WHERE name LIKE '%' || :search_txt || '%' OR barcode LIKE '%' || :search_txt || '%'")
             p = {"search_txt": search_txt}
-            result = db.execute(q, p)
+            result = db.execute(q, p).fetchall()
+
+            # Search log
+            if result:
+                is_found = True
+            else:
+                is_found = False
+            log_search(search_txt,  is_found)
+
             items = [
                 Item(
                     name=row[0],
@@ -66,5 +75,6 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
             for item in items:
                 if item.unit is None:
                     item.unit = "pcs"
+
             return templates.TemplateResponse(request=request, name="search_results.html", context={"items": items})
             

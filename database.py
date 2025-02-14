@@ -4,16 +4,22 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
+import psycopg2
+from typing import List
+from urllib.parse import urlparse
+
 
 load_dotenv()
 
 DB_PATH = os.getenv("DB_PATH")
 PRODUCTS_TABLE = os.getenv("PRODUCTS_TABLE")
+
 MASTERDB_USER = os.getenv("MASTERDB_USER")
 MASTERDB_PASSWORD = os.getenv("MASTERDB_PASSWORD")
 MASTERDB_HOST = os.getenv("MASTERDB_HOST")
 MASTERDB_PORT = os.getenv("MASTERDB_PORT")
 MASTERDB_NAME = os.getenv("MASTERDB_NAME")
+SEARCH_HISTORY_TABLE = "search_history"
 
 MASTER_DATABASE_URL = f"postgresql://{MASTERDB_USER}:{MASTERDB_PASSWORD}@{MASTERDB_HOST}:{MASTERDB_PORT}/{MASTERDB_NAME}"
 LOCAL_DATABASE_URL = f"sqlite:///{DB_PATH}"
@@ -79,3 +85,49 @@ def is_table_exists():
     except sqlite3.Error as e:
         print(f"An error occurred: {e}")
         return False  # Handle potential errors
+
+def log_search(search_txt: str, is_found: bool):
+    conn = None
+    try:
+        
+        parsed_uri = urlparse(MASTER_DATABASE_URL)
+        
+        conn = psycopg2.connect(
+            dbname=parsed_uri.path[1:],  # Remove leading slash
+            user=parsed_uri.username,
+            password=parsed_uri.password,
+            host=parsed_uri.hostname,
+            port=parsed_uri.port
+        )
+        
+        with conn:
+            with conn.cursor() as cursor:
+                # time column is in UTC
+                cursor.execute(f'''
+                    CREATE TABLE IF NOT EXISTS {SEARCH_HISTORY_TABLE} (
+                        search_id SERIAL PRIMARY KEY,
+                        search_text TEXT NOT NULL,
+                        is_found  BOOLEAN NOT NULL,
+                        time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )
+                ''')
+                
+                conn.commit()
+
+                cursor.execute(f'''
+                    INSERT INTO {SEARCH_HISTORY_TABLE} (search_text, is_found)
+                    VALUES (%s, %s)
+                ''', (search_txt, is_found))
+                conn.commit()
+                
+        print("Barcode logged successfully")
+
+    except psycopg2.OperationalError as e:
+        print(f"Connection failed: {str(e)}")
+    except psycopg2.Error as e:
+        print(f"Database error: {str(e)}")
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+    finally:
+        if conn is not None:
+            conn.close()
