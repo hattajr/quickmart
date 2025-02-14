@@ -47,9 +47,8 @@ async def settings(request: Request):
 
 @app.get("/download_master_db", response_class=HTMLResponse)
 async def download_master_db(request: Request):
-    #download_master_table()
-    time.sleep(2)
-    print("success")
+    download_master_table()
+    print("success download master DB")
     return
 
 @app.get("/search", response_class=HTMLResponse)
