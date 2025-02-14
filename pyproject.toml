@@ -1,0 +1,27 @@
+[project]
+name = ""
+version = "0.0.0"
+description = ""
+authors = [
+    { name = "hattajr", email = "mhaaatta@gmail.com" }
+]
+requires-python = ">=3.11.0"
+dependencies = [
+    "polars",
+    "adbc-driver-postgresql",
+    "pyarrow",
+    "adbc-driver-sqlite",
+    "SQLAlchemy",
+    "psycopg2-binary",
+    "packaging",
+    "fastapi[standard]",
+    "uvicorn",
+    "jinja2",
+    "python-dotenv",
+    "pandas",
+    "pillow"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

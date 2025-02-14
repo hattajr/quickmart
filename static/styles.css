@@ -1,0 +1,192 @@
+.title{
+  display: flex;
+  justify-content: center; /* Center horizontally */
+}
+.htmx-indicator{
+    display:none;
+    width:15px;
+    height:15px;
+
+}
+.htmx-request .htmx-indicator{
+    display:inline;
+}
+.htmx-request.htmx-indicator{
+    display:inline;
+}
+
+.header {
+  display: flex;            /* Enable flexbox for the header */
+  justify-content: space-between; /* Title and Settings on opposite ends */
+  align-items: center;         /* Vertically center items */
+  padding: 10px;              /* Add some spacing */
+}
+
+.header-title {
+  text-align: center;          /* Center the title horizontally */
+  flex-grow: 1;               /* Allow title to take up extra space */
+  margin: 0;                 /* Remove default heading margins */
+}
+
+.settings-icon-container {
+  display: flex;
+  position: fixed; /* Important: Fixed position relative to viewport */
+  justify-content: flex-end; /* Aligns content to the right */
+  align-items: center;       /* Vertically aligns content (optional) */
+  bottom: 20px;             /* Distance from the bottom */
+  right: 20px;              /* Distance from the right */
+  z-index: 1000;             /* Ensure it's on top of other content */
+}
+
+.settings-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  /* Add any other styling you want for the icon itself */
+}
+
+.update-db-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-top: 10vh;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-top: 7px; /* Adjust vertical position */
+}
+
+.search-input {
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: rgb(21, 0, 255); /* Highlight color on focus */
+}
+
+
+
+/*IMAGE CONTAINER*/
+.image-container {
+  width: 75px;
+  height: 3px;
+  overflow: hidden;  /* Crop the image */
+}
+
+.image-container img {
+  width: 100%;  /* Make the image fill the container */
+  height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+}
+
+
+/* Basic table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-family: sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Style for each item cell (card) */
+td {
+  vertical-align: top;
+}
+
+td > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px; /* More pronounced rounded corners for card style */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Lighter shadow */
+  width: 200px; /* Fixed width for the card */
+  height: 300px; /* Fixed height for the card */
+}
+
+td > div:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Stronger shadow on hover */
+  background-color: #f9f9f9; /* Added background-color for a more distinct hover effect */
+}
+
+/* Item image */
+img {
+  width: 100%; /* Make image fill the card width */
+  object-fit: contain; /* Ensure the image is fully visible, potentially with padding */
+  border-radius: 8px 8px 0 0; /* Round only the top corners */
+  margin-bottom: 0; /* Remove margin from bottom */
+  max-height: 200px; /* Set a max height for the image to prevent overflow */
+}
+
+/* Item information container (name and price) */
+.item-info {
+  padding: 10px; /* Add padding inside the container */
+  text-align: center;
+  width: 100%; /* Make it full width */
+  flex-grow: 1; /* Allow item-info to take up remaining space */
+  display: flex; /* Use flexbox to align content vertically */
+  flex-direction: column;
+  justify-content: center; /* Vertically center the text content */
+}
+
+/* Item name */
+.item-info p:first-child {
+  font-weight: bold;
+  margin-bottom: 2px; /* Reduced spacing */
+  font-size: 1.1em;
+  color: #333;
+}
+
+/* Item price */
+.item-info p:last-child {
+  font-size: 0.9em;
+  color: #777;
+  font-weight: bold; /* Make price bold */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    white-space: nowrap;
+  }
+
+  td > div {
+    width: 100%;
+    height: auto; /* Allow height to adjust based on content */
+  }
+
+  img {
+    max-width: 100%; /* Make image responsive on small screens */
+    height: auto;
+    max-height: none; /* Remove max height constraint for Contain */
+  }
+}

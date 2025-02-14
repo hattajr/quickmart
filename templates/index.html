@@ -1,0 +1,23 @@
+{% extends "_layout.html" %}
+{% block main_content %}
+<header class="header">
+    <h1 class="header-title">IKMI MART</h1>
+</header>
+
+<div class="search-container">
+    <input type="text"
+        name="search_txt"
+        hx-get="/search"
+        hx-trigger="keyup changed delay:300ms"
+        hx-target="#search-results"
+        placeholder="Search..."
+        class="search-input">
+</div>
+<div id="search-results"></div>
+
+<div class="settings-icon-container">
+    <div class="settings-icon" hx-get="/settings" hx-trigger="click" hx-target="#main-content" hx-push-url="true">
+        ⚙️
+    </div>
+</div>
+{% endblock %}

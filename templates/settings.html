@@ -1,0 +1,9 @@
+{% extends "_layout.html" %}
+{% block main_content %}
+<div class="update-db-container">
+    <button hx-get="/download_master_db" hx-indicator="#indicator" hx-swap="none">
+        Update Database
+    </button>
+    <img id="indicator" class="htmx-indicator" src="static/Snake.gif"/>
+</div>
+{% endblock %}

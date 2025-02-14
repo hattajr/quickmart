@@ -1,0 +1,13 @@
+# Quickmart
+
+
+### Enviroment
+```bash
+DB_PATH = 
+PRODUCTS_TABLE = 
+MASTERDB_USER = 
+MASTERDB_PASSWORD = 
+MASTERDB_HOST = 
+MASTERDB_PORT = 
+MASTERDB_NAME = 
+```
