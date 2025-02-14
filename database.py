@@ -65,3 +65,17 @@ def download_master_table(db_uri=MASTER_DATABASE_URL) -> pl.DataFrame:
     sqlite_conn.commit()
     sqlite_conn.close()
     return
+
+def is_table_exists():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name=?", (PRODUCTS_TABLE,)
+        )
+        result = cursor.fetchone()
+        conn.close()
+        return result is not None  # Returns True if a row was found, False otherwise
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        return False  # Handle potential errors

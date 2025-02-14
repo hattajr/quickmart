@@ -2,14 +2,18 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from database import PRODUCTS_TABLE, get_local_db, download_master_table
+from database import PRODUCTS_TABLE, get_local_db, download_master_table, is_table_exists
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import base64
-import time
 
 
+if not is_table_exists():
+    print("LOCAL SQLITE not found")
+    print("Downloading...")
+    download_master_table()
+    print("success download master DB")
 
 
 app = FastAPI()
