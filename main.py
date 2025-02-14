@@ -44,6 +44,7 @@ async def download_master_db(request: Request):
 async def index(request: Request):
     return templates.TemplateResponse(request=request, name="index.html")
 
+
 @app.get("/settings", response_class=HTMLResponse)
 async def settings(request: Request):
     return templates.TemplateResponse(request=request, name="settings.html")

@@ -1,32 +1,29 @@
+{% set item_count = items|length %}
+{% if item_count == 0 %}
+<p style="text-align: center;">Product Not Found 🥺</p>
+{% else %}
 <table>
-  {% set item_count = items|length %}
-  {% if item_count == 0 %}
-    <tr>
-      <td>Not Found</td>
-    </tr>
-  {% else %}
-    {% set num_rows = (item_count / 3)|round(method='ceil')|int %}
-
-    {% for row in range(num_rows) %}
-    <tr>
-      {% for col in range(3) %}
-        {% set item_index = row * 3 + col %}
-        {% if item_index < items|length %}
-          {% set item = items[item_index] %}
-          <td>
-            <div>
-              <img src="{{ item.image_url }}" alt="Image from URL">
-              <div class="item-info">
-                <p>{{ item.name }}</p>
-                <p>₩{{ item.price }}/{{ item.unit }}</p>
-              </div>
+  {% set num_rows = (item_count / 3)|round(method='ceil')|int %}
+  {% for row in range(num_rows) %}
+  <tr>
+    {% for col in range(3) %}
+      {% set item_index = row * 3 + col %}
+      {% if item_index < items|length %}
+        {% set item = items[item_index] %}
+        <td>
+          <div>
+            <img src="{{ item.image_url }}" alt="Image from URL">
+            <div class="item-info">
+              <p>{{ item.name }}</p>
+              <p>₩{{ item.price }}/{{ item.unit }}</p>
             </div>
-          </td>
-        {% else %}
-          <td></td>
-        {% endif %}
-      {% endfor %}
-    </tr>
+          </div>
+        </td>
+      {% else %}
+        <td></td>
+      {% endif %}
     {% endfor %}
-  {% endif %}
+  </tr>
+  {% endfor %}
+{% endif %}
 </table>
