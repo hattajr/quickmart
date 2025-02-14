@@ -6,7 +6,6 @@ from database import PRODUCTS_TABLE, get_local_db, download_master_table, is_tab
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from dataclasses import dataclass
-import base64
 
 
 if not is_table_exists():
@@ -19,12 +18,6 @@ if not is_table_exists():
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
-# Register the filter with the Jinja2 environment
-def b64encode(data: bytes) -> str:
-    # Custom filter for Base64 encoding
-    return base64.b64encode(data).decode("utf-8")
-
-templates.env.filters['b64encode'] = b64encode
 
 @dataclass
 class Item:
@@ -57,11 +50,8 @@ async def settings(request: Request):
 
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, search_txt:str, db:Session=Depends(get_local_db)):
-    print(1, search_txt)
     if request.headers.get('HX-Request'):
-        print(2, search_txt)
         if len(search_txt) > 0:
-            print(3, search_txt)
             q = text(f"SELECT name, price, unit,  barcode FROM {PRODUCTS_TABLE} WHERE name LIKE '%' || :search_txt || '%' OR barcode LIKE '%' || :search_txt || '%'")
             p = {"search_txt": search_txt}
             result = db.execute(q, p)
