@@ -1,5 +1,6 @@
 body {
   font-family: 'Comfortaa', cursive;  /*  Your preferred font stack  */
+  background: whitesmoke;
 }
 
 p{
@@ -23,11 +24,54 @@ p{
     display:inline;
 }
 
-.shared-barcode-container{
-  display: flex;            /* Enable flexbox for the header */
+.search-result-container{
+  display: flex;
+  width: 80vw;
   justify-content: center;
-  margin-top: 30%;
+  margin-top: 3%;
+  transform: translateX(8vw);
 }
+
+.search-result-single{
+  position: relative;
+  display: flex;
+  transform: translate(20vw, -30vw);
+  z-index: 1000;
+  background-color: rgb(255, 255, 255);
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  width: 50%;
+  height: 375px;
+  box-sizing: border-box;
+  margin-top: 55%;
+}
+
+
+#search-results {
+  width: 100%; /* Ensure it takes up all available space */
+}
+
+.search-result-many{
+  position: relative;
+  z-index: 2;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+}
+
+.shared-barcode-container{
+  position: absolute;
+  justify-content: center;
+  margin-top: 20vh;
+  display: flex;
+  z-index: 1;
+  width: 100%;
+}
+
 
 .header {
   display: flex;
@@ -80,7 +124,7 @@ p{
 .search-input {
     padding: 10px;
     border: 2px solid black;
-    border-radius: 5px;
+    border-radius: 20px;
     width: 80%;
     max-width: 500px;
     transition: border-color 0.3s ease;
@@ -90,7 +134,6 @@ p{
 .search-input:focus {
     border-color: rgb(21, 0, 255); /* Highlight color on focus */
 }
-
 
 
 .image-container {
@@ -107,8 +150,9 @@ p{
 
 
 /* Basic table styling */
+/* Basic table styling */
 table {
-  width: 100%;
+  width: 100%; /* Important: Table should expand to fill parent */
   border-collapse: collapse;
   margin-bottom: 20px;
   font-family: sans-serif;
@@ -148,6 +192,7 @@ td > div {
   height: 325px;
   box-sizing: border-box;
 }
+
 
 td > div:hover {
   transform: translateY(-3px);
