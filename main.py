@@ -62,7 +62,6 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                 is_found = True
             else:
                 is_found = False
-            log_search(search_txt,  is_found)
 
             items = [
                 Item(
@@ -76,5 +75,6 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                 if item.unit is None:
                     item.unit = "pcs"
 
+            log_search(search_txt,  is_found)
             return templates.TemplateResponse(request=request, name="search_results.html", context={"items": items})
             

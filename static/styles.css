@@ -1,3 +1,10 @@
+body {
+  font-family: 'Comfortaa', cursive;  /*  Your preferred font stack  */
+}
+
+p{
+  font-family: 'Comfortaa', cursive;  /*  Your preferred font stack  */
+}
 
 .title{
   display: flex;
@@ -23,16 +30,22 @@
 }
 
 .header {
-  display: flex;            /* Enable flexbox for the header */
-  justify-content: space-between; /* Title and Settings on opposite ends */
-  align-items: center;         /* Vertically center items */
-  padding: 10px;              /* Add some spacing */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Changed from space-between */
+  align-items: center;
+  padding: 10px;
 }
 
 .header-title {
-  text-align: center;          /* Center the title horizontally */
-  flex-grow: 1;               /* Allow title to take up extra space */
-  margin: 0;                 /* Remove default heading margins */
+  text-align: center;
+  margin-bottom: 5px;  /* Reduce margin below the title */
+}
+
+.header p {
+  margin-top: 1px;     /* Reduce margin above the paragraph */
+  font-family: 'Roboto';  /*  Your preferred font stack  */
+
 }
 
 .settings-icon-container {
