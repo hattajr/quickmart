@@ -15,6 +15,12 @@
     display:inline;
 }
 
+.shared-barcode-container{
+  display: flex;            /* Enable flexbox for the header */
+  justify-content: center;
+  margin-top: 30%;
+}
+
 .header {
   display: flex;            /* Enable flexbox for the header */
   justify-content: space-between; /* Title and Settings on opposite ends */
