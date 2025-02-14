@@ -42,11 +42,11 @@ async def index(request: Request):
 
 @app.get("/settings", response_class=HTMLResponse)
 async def settings(request: Request):
-    print("setting")
     return templates.TemplateResponse(request=request, name="settings.html")
 
 @app.get("/download_master_db", response_class=HTMLResponse)
 async def download_master_db(request: Request):
+    print("Downloading...")
     download_master_table()
     print("success download master DB")
     return

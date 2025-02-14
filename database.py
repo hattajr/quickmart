@@ -43,19 +43,19 @@ def get_local_db():
 
 
 def download_master_table(db_uri=MASTER_DATABASE_URL) -> pl.DataFrame:
-    q = f"SELECT * FROM {PRODUCTS_TABLE}"
+    q = f"SELECT barcode, name, price, unit FROM {PRODUCTS_TABLE}"
     data = pl.read_database_uri(query=q, uri=db_uri, engine="adbc")
     print(data.head())
 
     # Convert all date/datetime cols to string or the columns will have wrong string format in SQLITE
-    data = data.with_columns(
-        [
-            pl.col(x).dt.strftime("%Y-%m-%d %H:%M:%S").alias(x)
-            for x in ["create_time", "update_time"]
-        ]
-    ).with_columns(
-        [pl.col(x).dt.strftime("%Y-%m-%d").alias(x) for x in ["expiry_date"]]
-    )
+    # data = data.with_columns(
+        # [
+            # pl.col(x).dt.strftime("%Y-%m-%d %H:%M:%S").alias(x)
+            # for x in ["create_time", "update_time"]
+        # ]
+    # ).with_columns(
+        # [pl.col(x).dt.strftime("%Y-%m-%d").alias(x) for x in ["expiry_date"]]
+    # )
 
     sqlite_conn = sqlite3.connect(DB_PATH)
     data.to_pandas().to_sql(
