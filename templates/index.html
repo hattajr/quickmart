@@ -10,7 +10,7 @@
         id="searchBox"
         name="search_txt"
         hx-get="/search"
-        hx-trigger="keyup delay:500ms"
+        hx-trigger="keyup[key=='Enter']" 
         hx-target="#search-results"
         placeholder="Search..."
         hx-on::after-request="this.value = ''"
