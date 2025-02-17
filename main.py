@@ -58,8 +58,8 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
             q = text(f"""
                 SELECT name, price, unit,  barcode 
                 FROM {PRODUCTS_TABLE} 
-                WHERE name LIKE '%' || :search_txt || '%' 
-                    OR barcode LIKE '%' || :search_txt || '%'
+                WHERE barcode LIKE '%' || :search_txt || '%'
+                    OR name LIKE '%' || :search_txt || '%' 
                     OR search_term LIKE '%' || :search_txt || '%'
             """)
             p = {"search_txt": search_txt}
@@ -83,7 +83,6 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                 if item.unit is None:
                     item.unit = "pcs"
 
-            print(f"'{search_txt}'")
             log_search(search_txt,  is_found)
             return templates.TemplateResponse(request=request, name="search_results.html", context={"items": items})
             
