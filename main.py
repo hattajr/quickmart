@@ -8,6 +8,7 @@ from sqlalchemy import text
 from dataclasses import dataclass
 
 
+
 if not is_table_exists():
     print("LOCAL SQLITE not found")
     print("Downloading...")
@@ -51,10 +52,16 @@ async def settings(request: Request):
 
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, search_txt:str, db:Session=Depends(get_local_db)):
+    print(len(search_txt))
     if request.headers.get('HX-Request'):
         if len(search_txt) > 0:
-
-            q = text(f"SELECT name, price, unit,  barcode FROM {PRODUCTS_TABLE} WHERE name LIKE '%' || :search_txt || '%' OR barcode LIKE '%' || :search_txt || '%'")
+            q = text(f"""
+                SELECT name, price, unit,  barcode 
+                FROM {PRODUCTS_TABLE} 
+                WHERE name LIKE '%' || :search_txt || '%' 
+                    OR barcode LIKE '%' || :search_txt || '%'
+                    OR search_term LIKE '%' || :search_txt || '%'
+            """)
             p = {"search_txt": search_txt}
             result = db.execute(q, p).fetchall()
 
@@ -76,6 +83,7 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                 if item.unit is None:
                     item.unit = "pcs"
 
+            print(f"'{search_txt}'")
             log_search(search_txt,  is_found)
             return templates.TemplateResponse(request=request, name="search_results.html", context={"items": items})
             

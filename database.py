@@ -49,7 +49,7 @@ def get_local_db():
 
 
 def download_master_table(db_uri=MASTER_DATABASE_URL) -> pl.DataFrame:
-    q = f"SELECT barcode, name, price, unit FROM {PRODUCTS_TABLE}"
+    q = f"SELECT barcode, name, price, unit, search_term FROM {PRODUCTS_TABLE}"
     data = pl.read_database_uri(query=q, uri=db_uri, engine="adbc")
     print(data.head())
 
