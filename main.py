@@ -22,16 +22,20 @@ templates = Jinja2Templates(directory="templates")
 
 @dataclass
 class Item:
-    barcode:str
     name: str
     price: int
     unit: str | None
+    barcode:str | None = None
     image_url: str | None = None
     image_format = ".png"
     _image_base_url =  "https://ynmesjxztocrzaoxktaa.supabase.co/storage/v1/object/public/image_test/output_images/"
 
     def __post_init__(self):
-        self.image_url = self._image_base_url+self.barcode+self.image_format
+        if self.barcode:
+            self.image_url = self._image_base_url+self.barcode+self.image_format
+        if not self.unit:
+            self.unit = "pcs"
+
 
 
 @app.get("/download_master_db", response_class=HTMLResponse)
@@ -61,11 +65,12 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                 WHERE barcode LIKE '%' || :search_txt || '%'
                     OR name LIKE '%' || :search_txt || '%' 
                     OR search_term LIKE '%' || :search_txt || '%'
+                    OR tags LIKE '%' || :search_txt || '%'
             """)
             p = {"search_txt": search_txt}
             result = db.execute(q, p).fetchall()
 
-            # Search log
+            # log search
             if result:
                 is_found = True
             else:
@@ -79,9 +84,6 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
                     barcode=row[3],
                 ) for row in result
                 ]
-            for item in items:
-                if item.unit is None:
-                    item.unit = "pcs"
 
             log_search(search_txt,  is_found)
             return templates.TemplateResponse(request=request, name="search_results.html", context={"items": items})

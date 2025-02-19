@@ -21,6 +21,7 @@ MASTERDB_PORT = os.getenv("MASTERDB_PORT")
 MASTERDB_NAME = os.getenv("MASTERDB_NAME")
 SEARCH_HISTORY_TABLE = "search_history"
 
+
 MASTER_DATABASE_URL = f"postgresql://{MASTERDB_USER}:{MASTERDB_PASSWORD}@{MASTERDB_HOST}:{MASTERDB_PORT}/{MASTERDB_NAME}"
 LOCAL_DATABASE_URL = f"sqlite:///{DB_PATH}"
 
@@ -49,19 +50,11 @@ def get_local_db():
 
 
 def download_master_table(db_uri=MASTER_DATABASE_URL) -> pl.DataFrame:
-    q = f"SELECT barcode, name, price, unit, search_term FROM {PRODUCTS_TABLE}"
+    print(f"Get data from table: {PRODUCTS_TABLE}")
+    q = f"SELECT barcode, name, price, unit, search_term, tags FROM {PRODUCTS_TABLE}"
     data = pl.read_database_uri(query=q, uri=db_uri, engine="adbc")
     print(data.head())
-
-    # Convert all date/datetime cols to string or the columns will have wrong string format in SQLITE
-    # data = data.with_columns(
-        # [
-            # pl.col(x).dt.strftime("%Y-%m-%d %H:%M:%S").alias(x)
-            # for x in ["create_time", "update_time"]
-        # ]
-    # ).with_columns(
-        # [pl.col(x).dt.strftime("%Y-%m-%d").alias(x) for x in ["expiry_date"]]
-    # )
+    print(data.describe())
 
     sqlite_conn = sqlite3.connect(DB_PATH)
     data.to_pandas().to_sql(

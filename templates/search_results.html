@@ -4,7 +4,7 @@
 {% elif item_count == 1 %}
   {% set item = items[0] %}
   <div class="search-result-single">
-    <img src="{{ item.image_url }}" alt="Image from URL">
+    <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='/static/noimage.png';" >
     <div class="item-info">
       <p>{{ item.name }}</p>
       <p  style="font-size: 20px;" >₩{{ item.price }}/{{ item.unit }}</p>
@@ -22,7 +22,7 @@
             {% set item = items[item_index] %}
             <td>
               <div>
-                <img src="{{ item.image_url }}" alt="Image from URL">
+                <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='/static/noimage.png';" >
                 <div class="item-info">
                   <p>{{ item.name }}</p>
                   <p>₩{{ item.price }}/{{ item.unit }}</p>
