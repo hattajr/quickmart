@@ -29,12 +29,15 @@ class Item:
     image_url: str | None = None
     image_format = ".png"
     _image_base_url =  "https://ynmesjxztocrzaoxktaa.supabase.co/storage/v1/object/public/image_test/output_images/"
+    price_str : str | None = None
 
     def __post_init__(self):
         if self.barcode:
             self.image_url = self._image_base_url+self.barcode+self.image_format
         if not self.unit:
             self.unit = "pcs"
+        self.price_str = f"{self.price:,}"
+        
 
 
 
