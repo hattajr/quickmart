@@ -17,7 +17,7 @@ if not is_table_exists():
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="static", html=False), name="static")
 templates = Jinja2Templates(directory="templates")
 
 @dataclass

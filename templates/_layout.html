@@ -51,5 +51,28 @@
         window.addEventListener('load', setFocus);
     
       </script>
+
+      <script>
+        document.getElementById('searchBox').addEventListener('htmx:beforeRequest', function(evt) {
+          document.getElementById('barcode-container').style.display = 'none';
+        });
+
+        document.getElementById('searchBox').addEventListener('htmx:afterRequest', function(evt) {
+          // Check if the request was successful (status code 200)
+          if (evt.detail.successful) {
+            // If the search results are empty, show the image
+            const searchResults = document.getElementById('search-results');
+            if (!searchResults.hasChildNodes()) {
+                document.getElementById('barcode-container').style.display = 'block';
+            }
+          } else {
+            // If the request failed, show the image
+            document.getElementById('barcode-container').style.display = 'block';
+          }
+        });
+
+        // Initial display of the barcode image.
+        document.getElementById('barcode-container').style.display = 'block';
+      </script>
 </body>
 </html>

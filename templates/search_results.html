@@ -1,40 +1,22 @@
 {% set item_count = items|length %}
 {% if item_count == 0 %}
   <p style="text-align: center;">Product Not Found 🥺</p>
-{% elif item_count == 1 %}
-  {% set item = items[0] %}
-  <div class="search-result-single">
-    <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='/static/noimage.png';" >
-    <div class="item-info">
-      <p>{{ item.name }}</p>
-      <p  style="font-size: 20px;" >₩{{ item.price }}/{{ item.unit }}</p>
+{% else %}
+  <div class="product-grid">
+      {% for item in items %}
+        <div class="product-card">
+          <div class="product-image-container">
+            <div class="product-image">
+              <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='/static/noimage.png';" >
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">{{item.name }}</h3>
+                <p class="product-price">₩{{ "%.0f"|format(item.price) }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
-{% else %}
-  <div class="search-result-many">
-    <table>
-      {% set num_rows = (item_count / 3)|round(method='ceil')|int %}
-      {% for row in range(num_rows) %}
-      <tr>
-        {% for col in range(3) %}
-          {% set item_index = row * 3 + col %}
-          {% if item_index < items|length %}
-            {% set item = items[item_index] %}
-            <td>
-              <div>
-                <img src="{{ item.image_url }}" alt="{{ item.name }}" onerror="this.onerror=null;this.src='/static/noimage.png';" >
-                <div class="item-info">
-                  <p>{{ item.name }}</p>
-                  <p>₩{{ item.price }}/{{ item.unit }}</p>
-                </div>
-              </div>
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
 {% endif %}
+
