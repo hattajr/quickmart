@@ -56,7 +56,6 @@ async def settings(request: Request):
 
 @app.get("/search", response_class=HTMLResponse)
 async def search(request: Request, search_txt:str, db:Session=Depends(get_local_db)):
-    print(len(search_txt))
     if request.headers.get('HX-Request'):
         if len(search_txt) > 0:
             q = text(f"""
