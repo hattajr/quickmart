@@ -10,11 +10,17 @@
    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <div id="main-content">
         {% block main_content %}{% endblock %}
     </div>
+
+    <div id="floatingCopyright" class="fixed text-xs bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white py-2 px-4 rounded-full opacity-50 hover:opacity-100">
+      © <span id="copyrightYear"></span> IKMI MART
+    </div>
+  
 
     <script>
         let timeoutId;
@@ -73,6 +79,7 @@
 
         // Initial display of the barcode image.
         document.getElementById('barcode-container').style.display = 'block';
+        document.getElementById("copyrightYear").textContent = new Date().getFullYear();
       </script>
 </body>
 </html>

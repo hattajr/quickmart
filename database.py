@@ -124,3 +124,4 @@ def log_search(search_txt: str, is_found: bool):
     finally:
         if conn is not None:
             conn.close()
+
