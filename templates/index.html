@@ -1,11 +1,11 @@
 {% extends "_layout.html" %}
 {% block main_content %}
-<header class="header">
-    <h1 class="header-title">IKMI MART</h1>
+<div class="flex flex-col justify-center my-10 items-center">
+    <h1 class="text-5xl">IKMI MART</h1>
     <p>ikmimart.onrender.com</p>
-</header>
+</div>
 
-<div class="search-container">
+<div class="flex justify-center items-center">
     <input type="text"
         id="searchBox"
         name="search_txt"
@@ -14,16 +14,12 @@
         hx-target="#search-results"
         placeholder="Search..."
         hx-on:keyup="if(event.key === 'Enter') this.value = ''"
-        class="search-input">
+        class="max-w-md px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-300 bg-white text-gray-700 placeholder-gray-400 shadow-sm">
 </div>
-
-
 
 <div class="search-result-container" id="search-results"> </div>
 
-<div class="shared-barcode-container" id="barcode-container">
-    <img  src="static/ikmiqr.png"/>
-</div>
+{%include "barcode.html"%}
 
 <div class="settings-icon-container">
     <div class="settings-icon" hx-get="/settings" hx-trigger="click" hx-target="#main-content" hx-push-url="true">
