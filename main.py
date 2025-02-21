@@ -50,7 +50,7 @@ async def search(request: Request, search_txt:str, db:Session=Depends(get_local_
             SELECT name, price, unit,  barcode 
             FROM {PRODUCTS_TABLE} 
             WHERE barcode = :search_txt
-                OR name LIKE :search_txt || '%' 
+                OR name LIKE '%' || :search_txt || '%' 
                 OR search_term LIKE '%' || :search_txt || '%'
                 OR tags LIKE '%' || :search_txt || '%'
         """)
