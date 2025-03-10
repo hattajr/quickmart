@@ -1,3 +1,23 @@
+<style>
+    @keyframes slow-blink {
+      0%, 85% { opacity: 1; } /* Show for 3 seconds (85% of 3.5s) */
+      90% { opacity: 0; }     /* Start fading out */
+      100% { opacity: 1; }    /* Back to visible */
+    }
+    
+    .blink {
+      animation: slow-blink 2.5s infinite;
+    }
+  </style>
+
 <div class="flex justify-center items-center my-20" id="barcode-container">
     <img  src="static/ikmiqr.png"/>
+
+    <h2 class="flex justify-center items-center mt-20 text-2xl font-bold">Check Price Online at</h2>
+    <h2 class="flex justify-center items-center text-2xl">ikmimart.onrender.com</h2>
+        </h2>
+
+    <h3 class="flex justify-center items-center mt-12 text-red-500 blink"> JIKA PEMINDAIAN BARCODE GAGAL, KETIK NAMA BARANG KE DALAM KOTAK PENCARIAN.</h3>
+    <h3 class="flex justify-center items-center mt-2 text-red-500 blink"> IF THE BARCODE SCAN FAILS, TYPE THE ITEM NAME INTO THE SEARCH BOX.</h3>
+
 </div>
